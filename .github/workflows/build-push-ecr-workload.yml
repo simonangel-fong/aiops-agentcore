@@ -5,8 +5,8 @@ on:
   push:
     branches: [master]
     paths:
-      - "app/**"
-      - ".github/workflows/build-push-ecr-app.yml"
+      - "demo-workload/**"
+      - ".github/workflows/build-push-ecr-workload.yml"
 
 env:
   AWS_REGION: ca-central-1
@@ -25,26 +25,26 @@ jobs:
     name: pytest
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: app/requirements-dev.txt
+          cache-dependency-path: demo-workload/requirements-dev.txt
 
       - name: Install dependencies
-        run: pip install -r app/requirements-dev.txt
+        run: pip install -r demo-workload/requirements-dev.txt
 
       - name: Run app tests
-        run: pytest app/tests
+        run: pytest demo-workload/tests
 
   build-push:
     name: build and push
     needs: unit-test # build push only when unit test get passed
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -59,7 +59,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: app
+          context: demo-workload
           # The Dockerfile pins --platform=linux/amd64 to match the EKS nodes.
           platforms: linux/amd64
           push: true
