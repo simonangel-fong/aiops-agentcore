@@ -26,5 +26,8 @@ locals {
   # ##############################
   # GitHub
   # ##############################
-  github_repo = "simonangel-fong/aiops-agentcore"
+  github_repo       = "simonangel-fong/aiops-agentcore"
+  github_owner_id   = "64545430"
+  github_repo_id    = "1351804212"
+  github_sub_prefix = "repo:simonangel-fong@${local.github_owner_id}/aiops-agentcore@${local.github_repo_id}"
 }

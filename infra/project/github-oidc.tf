@@ -22,11 +22,11 @@ resource "aws_iam_role" "github_ecr_push" {
       Action    = "sts:AssumeRoleWithWebIdentity"
       Condition = {
         StringEquals = {
-          "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
+          "token.actions.githubusercontent.com:aud"           = "sts.amazonaws.com"
+          "token.actions.githubusercontent.com:repository_id" = local.github_repo_id
         }
-        # Scoped to this repository only.
         StringLike = {
-          "token.actions.githubusercontent.com:sub" = "repo:${local.github_repo}:*"
+          "token.actions.githubusercontent.com:sub" = "${local.github_sub_prefix}:ref:refs/heads/master"
         }
       }
     }]
