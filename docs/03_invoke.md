@@ -7,6 +7,7 @@
   - [Lambda function](#lambda-function)
     - [Lambda image](#lambda-image)
     - [Lambda deploy](#lambda-deploy)
+  - [](#)
 
 ---
 
@@ -61,4 +62,19 @@ docker buildx build --platform linux/amd64 --provenance=false --sbom=false --out
 ```sh
 terraform -chdir=infra/cluster fmt && terraform -chdir=infra/cluster validate
 terraform -chdir=infra/cluster apply -auto-approve
+
+# confirm
+```sh
+kubectl rollout restart deploy/aiops-agentcore-workload -n demo-workload
+# deployment.apps/aiops-agentcore-workload restarted
+
+# confirm in log
+aws logs tail /aws/lambda/aiops-agentcore-cluster-trigger --follow --region ca-central-1
+# incident_detected: {...}
+# incident_report:   {"root_cause": "...", "confidence": "high", ...}
 ```
+```
+
+---
+
+##
