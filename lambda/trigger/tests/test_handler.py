@@ -35,7 +35,7 @@ EVENT = {
                             "name": "pod_number_of_container_restarts",
                             "dimensions": {
                                 "ClusterName": "aiops-agentcore",
-                                "Namespace": "incident-demo",
+                                "Namespace": "demo-workload",
                                 "PodName": "aiops-agentcore-workload",
                             },
                         },
@@ -53,7 +53,7 @@ EVENT = {
 def test_extract_identifiers():
     incident = extract_incident(EVENT)
     assert incident["cluster"] == "aiops-agentcore"
-    assert incident["namespace"] == "incident-demo"
+    assert incident["namespace"] == "demo-workload"
     assert incident["pod"] == "aiops-agentcore-workload"
     assert incident["alarm"] == "aiops-agentcore-cluster-container-restart"
 
@@ -98,16 +98,16 @@ REPORT = {
     "missing_evidence": [],
     "runbook_references": ["reason: OOMKilled is the decisive field"],
     "recommended_next_steps": ["Investigate the leak before raising the limit"],
-    "verification_commands": ["kubectl describe pod -n incident-demo aiops-agentcore-workload"],
+    "verification_commands": ["kubectl describe pod -n demo-workload aiops-agentcore-workload"],
     "remediation_executed": False,
 }
 
-INCIDENT = {"cluster": "aiops-agentcore", "namespace": "incident-demo", "pod": "aiops-agentcore-workload"}
+INCIDENT = {"cluster": "aiops-agentcore", "namespace": "demo-workload", "pod": "aiops-agentcore-workload"}
 
 
 def test_format_report():
     text = _mod.format_report(INCIDENT, REPORT)
-    assert "incident-demo/aiops-agentcore-workload" in text
+    assert "demo-workload/aiops-agentcore-workload" in text
     assert "cgroup OOM killer" in text
     assert "Confidence: high" in text
     assert "[get_container_restart_info] reason OOMKilled, exit 137" in text
@@ -147,5 +147,5 @@ def test_slack_payload_uses_custom_schema():
     payload = _mod.slack_payload(INCIDENT, REPORT)
     assert payload["version"] == "1.0"
     assert payload["source"] == "custom"
-    assert "incident-demo/aiops-agentcore-workload" in payload["content"]["title"]
+    assert "demo-workload/aiops-agentcore-workload" in payload["content"]["title"]
     assert "No remediation was executed." in payload["content"]["description"]

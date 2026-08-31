@@ -78,6 +78,6 @@ def investigate(cluster: str, namespace: str, pod: str) -> dict:
 if __name__ == "__main__":
     import sys
 
-    ns = sys.argv[1] if len(sys.argv) > 1 else "incident-demo"
+    ns = sys.argv[1] if len(sys.argv) > 1 else "demo-workload"
     pd = sys.argv[2] if len(sys.argv) > 2 else "aiops-agentcore-workload"
     print(json.dumps(investigate("aiops-agentcore", ns, pd), indent=2))

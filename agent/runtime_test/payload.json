@@ -1,1 +1,1 @@
-{"namespace": "incident-demo", "pod": "aiops-agentcore-workload"}
+{"namespace": "demo-workload", "pod": "aiops-agentcore-workload"}

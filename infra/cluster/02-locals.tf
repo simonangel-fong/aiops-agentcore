@@ -33,7 +33,7 @@ locals {
   # ##############################
   # workload under observation
   # ##############################
-  app_namespace = "incident-demo"
+  app_namespace = "demo-workload"
   app_name      = "aiops-agentcore-workload"
 
   # ##############################

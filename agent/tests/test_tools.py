@@ -22,7 +22,7 @@ from tools import (  # noqa: E402
     search_runbook,
 )
 
-NS = "incident-demo"
+NS = "demo-workload"
 POD = "aiops-agentcore-workload"
 
 
