@@ -1,7 +1,5 @@
-name: build-push-ecr-app
+name: build-push-ecr-workload
 
-# Builds the demo workload image and pushes it to ECR.
-# The EKS deployment pulls :latest, so every push moves that tag.
 on:
   workflow_dispatch:
   push:
@@ -14,18 +12,16 @@ env:
   AWS_REGION: ca-central-1
   ECR_REPOSITORY: aiops-agentcore-workload
 
-# OIDC federation into AWS; no long-lived keys.
 permissions:
-  id-token: write
+  id-token: write # required for OIDC
   contents: read
 
-# One build at a time: concurrent pushes would race on the :latest tag.
 concurrency:
-  group: build-push-ecr-app
+  group: build-push-ecr-workload
   cancel-in-progress: false
 
 jobs:
-  test:
+  unit-test:
     name: pytest
     runs-on: ubuntu-latest
     steps:
@@ -45,7 +41,7 @@ jobs:
 
   build-push:
     name: build and push
-    needs: test
+    needs: unit-test # build push only when unit test get passed
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -53,7 +49,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ vars.AWS_ROLE_ARN_GH_OIDC }}
+          role-to-assume: ${{ vars.AWS_ROLE_ARN_ECR_OIDC }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Log in to Amazon ECR

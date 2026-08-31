@@ -1,14 +1,14 @@
-## AIOps-AgentCore: Demo workload
+# AIOps-AgentCore: Demo workload
 
 [Back](../README.md)
 
 - [AIOps-AgentCore: Demo workload](#aiops-agentcore-demo-workload)
-- [FastAPI Application](#fastapi-application)
-- [Docker image](#docker-image)
-- [K8s - local](#k8s---local)
-- [K8s - EKS](#k8s---eks)
-- [App deployment](#app-deployment)
-- [Phase 1 checkpoint — passed](#phase-1-checkpoint--passed)
+  - [FastAPI Application](#fastapi-application)
+  - [Docker image](#docker-image)
+  - [K8s - local](#k8s---local)
+  - [K8s - EKS](#k8s---eks)
+  - [App deployment](#app-deployment)
+  - [Phase 1 checkpoint — passed](#phase-1-checkpoint--passed)
 
 ---
 

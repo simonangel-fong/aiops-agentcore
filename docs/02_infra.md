@@ -1,12 +1,12 @@
-## AIOps-AgentCore: Infrastructure
+# AIOps-AgentCore: Infrastructure
 
 [Back](../README.md)
 
 - [AIOps-AgentCore: Infrastructure](#aiops-agentcore-infrastructure)
-- [Project Resources](#project-resources)
-- [Project level](#project-level)
-- [Cluster level](#cluster-level)
-- [Cluster level](#cluster-level-1)
+  - [Project Resources](#project-resources)
+  - [Project level](#project-level)
+  - [Cluster level](#cluster-level)
+  - [Cluster level](#cluster-level-1)
 
 ---
 
