@@ -7,7 +7,8 @@
     - [Agent image](#agent-image)
     - [AgentCore deploy](#agentcore-deploy)
     - [Test runtime](#test-runtime)
-  - [Confirm invocation](#confirm-invocation)
+    - [Confirm invocation](#confirm-invocation)
+    - [Safety](#safety)
   - [Notification](#notification)
     - [Dev email](#dev-email)
     - [Slack](#slack)
@@ -82,7 +83,7 @@ aws bedrock-agentcore invoke-agent-runtime --agent-runtime-arn "arn:aws:bedrock-
 
 ---
 
-## Confirm invocation
+### Confirm invocation
 
 - check log
 
@@ -100,6 +101,33 @@ aws logs tail "/aws/bedrock-agentcore/runtimes/aiops_agentcore_cluster_agent-U0q
 ![agentcore_log03](./img/agentcore_log03.png)
 
 ![agentcore_log04](./img/agentcore_log04.png)
+
+---
+
+### Safety
+
+```sh
+# confirm agent iam role
+aws iam get-role --role-name aiops-agentcore-cluster-role-agent --query "Role.AssumeRolePolicyDocument.Statement[0].Principal" --output json
+# {
+#     "Service": "bedrock-agentcore.amazonaws.com"
+# }
+
+# confirm agent policy
+aws eks list-associated-access-policies --cluster-name aiops-agentcore --principal-arn "arn:aws:iam::099139718958:role/aiops-agentcore-cluster-role-agent" --region ca-central-1 --query "associatedAccessPolicies[].{policy:policyArn,scope:accessScope.type,namespaces:accessScope.namespaces}" --output json
+# [
+#     {
+#         "policy": "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy",
+#         "scope": "namespace",
+#         "namespaces": [
+#             "demo-workload"
+#         ]
+#     }
+# ]
+
+```
+
+![k8s_auth01](./img/k8s_auth01.png)
 
 ---
 
@@ -125,3 +153,5 @@ aws sns publish --topic-arn "arn:aws:sns:ca-central-1:099139718958:aiops-agentco
 ![slack_msg01](./img/slack_msg01.png)
 
 ![slack_msg02](./img/slack_msg02.png)
+
+---

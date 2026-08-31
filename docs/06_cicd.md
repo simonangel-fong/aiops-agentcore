@@ -18,7 +18,7 @@
 
 ```sh
 terraform -chdir=infra/project output -raw github_oidc_role_arn
-gh variable set AWS_ROLE_ARN_ECR_OIDC -b "arn:aws:iam::099139718958:role/aiops-agentcore-project-github-ecr-push"
+gh variable set AWS_ROLE_ARN_ECR_OIDC -b "ecr_push_role"
 # ✓ Created variable AWS_ROLE_ARN_ECR_OIDC for simonangel-fong/aiops-agentcore
 
 

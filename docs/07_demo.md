@@ -5,7 +5,8 @@
 - [AIOps-AgentCore: Demo](#aiops-agentcore-demo)
   - [Deploy](#deploy)
   - [Alarm with Slack](#alarm-with-slack)
-  - [Confirm and debug](#confirm-and-debug)
+  - [Confirm](#confirm)
+  - [Debug](#debug)
 
 ---
 
@@ -13,9 +14,16 @@
 
 ```sh
 # deploy eks
+terraform -chdir=infra/cluster apply -auto-approve
 
 # deploy workload
+kubectl apply -f k8s/
+# namespace/demo-workload created
+# deployment.apps/aiops-agentcore-workload created
+# service/aiops-agentcore-workload created
 ```
+
+![eks_cluster01](./img/eks_cluster01.png)
 
 ---
 
@@ -27,7 +35,7 @@
 
 ---
 
-## Confirm and debug
+## Confirm
 
 ```sh
 # check log
@@ -91,6 +99,10 @@ kubectl get events -n demo-workload --sort-by=.lastTimestamp
 # 2m10s       Warning   BackOff             pod/aiops-agentcore-workload-7bf7c7d76d-2gd8v    Back-off restarting failed container app in pod aiops-agentcore-workload-7bf7c7d76d-2gd8v_demo-workload(2ffcde3f-88ad-4040-823c-e4876b652821)
 # ubuntuadmin@wsl-ubuntu:~$
 ```
+
+---
+
+## Debug
 
 - debug by swith `LEAK_ENABLED=false`
 

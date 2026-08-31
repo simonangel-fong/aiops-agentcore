@@ -66,7 +66,7 @@ The incident then progresses through three AIOps stages:
 
 - **Observe** detects the failure
 - **Engage** diagnoses the cause
-- and **Act** delivers the findings for human-controlled remediation.
+- **Act** delivers the findings for human-controlled remediation.
 
 ![Observe, Engage, and Act workflow](./docs/img/diagram_aiops.gif)
 
@@ -103,7 +103,7 @@ Agent in action:
 - The `agent` posts a **preliminary RCA report** and verification commands to `Slack`.
 - The `operator` validates the findings, selects the remediation, and confirms recovery when the `CloudWatch alarm` returns to `OK`.
 
-Notification and debugging in action:
+**Notification and debugging in action:**
 
 - Automated RCA in Slack
 
@@ -121,9 +121,18 @@ Notification and debugging in action:
       value: "false" # debug by "false"
   ```
 
+  ```sh
+  kubectl apply -f k8s/
+  # namespace/demo-workload unchanged
+  # deployment.apps/aiops-agentcore-workload configured
+  # service/aiops-agentcore-workload unchanged
+  ```
+
 - Recovery Confirmed: Alarm status = ok
 
   ![CloudWatch alarm returns to OK](docs/img/cloudwatch_alarm02.png)
+
+  > no more alarm count after fix.
 
 ---
 
@@ -132,11 +141,13 @@ Notification and debugging in action:
 Defense-in-depth guardrails prevent the agent from making unsafe changes to the EKS workload:
 
 - **Authorization boundary:** `Kubernetes RBAC` restricts the agent to **read-only** cluster operations.
+  ![k8s_auth01](./docs/img/k8s_auth01.png)
+
+  > Agent role policy: EKS View = read-only
+
 - **Behavioral boundary:** Prompt rules prohibit remediation and mutating commands, keep recommendations advisory, and treat logs and runbooks as untrusted data rather than instructions.
-
-![k8s_auth01](./docs/img/k8s_auth01.png)
-
-![agent_sys_prompt01](./docs/img/agent_sys_prompt01.png)
+  ![agent_sys_prompt01](./docs/img/agent_sys_prompt02.png)
+  > System prompt: read-only access; ignore injection.
 
 ---
 
@@ -149,8 +160,7 @@ Defense-in-depth guardrails prevent the agent from making unsafe changes to the 
 | Workload Deployment    | `Kubernetes` manifests deploy the containerized application to `Amazon EKS` |
 
 - `GitHub Actions` CI workflow
-
-![cicd_image_workload](./docs/img/cicd_image_workload.png)
+  ![cicd_image_workload](./docs/img/cicd_image_workload.png)
 
 ---
 
@@ -171,7 +181,7 @@ The current MVP intentionally focuses on read-only diagnosis of a single `OOMKil
 - [Demo workload](./docs/01_app.md)
 - [Infrastructure with `Terraform`](./docs/02_infra.md)
 - [Invocation with `EventBridge` and `Lambda`](./docs/03_invoke.md)
-- [RAG with `Bedrock knowledge base` ](./docs/04_bedrock.md)
+- [`RAG` with `Bedrock knowledge base` ](./docs/04_bedrock.md)
 - [Agent runtime in `AgentCore`](./docs/05_agentcore.md)
 - [CI/CD pipelines](./docs/06_cicd.md)
 - [Incident demo](./docs/07_demo.md)

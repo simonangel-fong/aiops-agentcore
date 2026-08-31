@@ -7,6 +7,7 @@
   - [Lambda function](#lambda-function)
     - [Lambda image](#lambda-image)
     - [Lambda deploy](#lambda-deploy)
+  - [Eventbridge](#eventbridge)
 
 ---
 
@@ -71,3 +72,9 @@ aws logs tail /aws/lambda/aiops-agentcore-cluster-trigger --follow --region ca-c
 # incident_detected: {...}
 # incident_report:   {"root_cause": "...", "confidence": "high", ...}
 ```
+
+---
+
+## Eventbridge
+
+![eventbridge01](./img/eventbridge01.png)

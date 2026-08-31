@@ -6,18 +6,16 @@
   - [Project Resources](#project-resources)
   - [Project level](#project-level)
   - [Cluster level](#cluster-level)
-  - [Cluster level](#cluster-level-1)
 
 ---
 
 ## Project Resources
 
-| Resource             | Name                                                       |
-| -------------------- | ---------------------------------------------------------- |
-| ECR repository       | `kube-agent-app`, `kube-agent-trigger`, `kube-agent-agent` |
-| S3 bucket            | `kube-agent-project-<account_id>`                          |
-| IAM role (ECR push)  | `kube-agent-project-github-ecr-push`                       |
-| IAM role (Terraform) | `kube-agent-project-github-terraform`                      |
+| Resource            | Name                                                           |
+| ------------------- | -------------------------------------------------------------- |
+| ECR repository      | `kube-agent-workloa`, `kube-agent-trigger`, `kube-agent-agent` |
+| S3 bucket           | `kube-agent-project`                                           |
+| IAM role (ECR push) | `kube-agent-project-github-ecr-push`                           |
 
 ---
 
@@ -55,8 +53,6 @@ aws ecr describe-repositories --region ca-central-1 --query 'repositories[].repo
 
 ## Cluster level
 
-## Cluster level
-
 - `infra/cluster/`
   - VPC, EKS, node group, OIDC
 
@@ -70,3 +66,5 @@ terraform -chdir=infra/cluster apply -auto-approve
 terraform -chdir=infra/cluster output
 terraform -chdir=infra/cluster destroy -auto-approve
 ```
+
+![eks_cluster01](./img/eks_cluster01.png)
