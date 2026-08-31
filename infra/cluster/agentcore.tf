@@ -111,3 +111,42 @@ resource "aws_bedrockagentcore_agent_runtime" "agent" {
 
   depends_on = [aws_iam_role_policy.agent]
 }
+
+# #################################
+# AgentCore: log group
+# #################################
+resource "aws_cloudwatch_log_group" "agent" {
+  name              = "/aws/bedrock-agentcore/runtimes/${aws_bedrockagentcore_agent_runtime.agent.agent_runtime_id}-DEFAULT"
+  retention_in_days = 7
+}
+
+# #################################
+# AgentCore: log delivery
+# #################################
+resource "aws_cloudwatch_log_group" "agent_vended" {
+  name              = "/aws/vendedlogs/bedrock-agentcore/${aws_bedrockagentcore_agent_runtime.agent.agent_runtime_id}"
+  retention_in_days = 7
+}
+
+resource "aws_cloudwatch_log_delivery_source" "agent" {
+  for_each = toset(local.agent_log_types)
+
+  name         = "${local.prefix_name}-agent-${lower(each.key)}"
+  log_type     = each.key
+  resource_arn = aws_bedrockagentcore_agent_runtime.agent.agent_runtime_arn
+}
+
+resource "aws_cloudwatch_log_delivery_destination" "agent" {
+  name = "${local.prefix_name}-agent-cwl"
+
+  delivery_destination_configuration {
+    destination_resource_arn = aws_cloudwatch_log_group.agent_vended.arn
+  }
+}
+
+resource "aws_cloudwatch_log_delivery" "agent" {
+  for_each = aws_cloudwatch_log_delivery_source.agent
+
+  delivery_source_name     = each.value.name
+  delivery_destination_arn = aws_cloudwatch_log_delivery_destination.agent.arn
+}

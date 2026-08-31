@@ -51,8 +51,8 @@ locals {
   # ##############################
   # agent
   # ##############################
-  # The global. inference-profile prefix is required; the bare model id fails.
   agent_model_id  = "global.anthropic.claude-haiku-4-5-20251001-v1:0"
   agent_image_tag = "latest"
+  agent_log_types = ["APPLICATION_LOGS"]
 
 }

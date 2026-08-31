@@ -92,9 +92,9 @@ Agent in action:
 
   ![Agent deployed in AgentCore Runtime](docs/img/agentcore_runtime.png)
 
-- Agent Execution Logs
+- Agent Execution Logs: tool calling and analysis
 
-  ![Agent diagnosis execution logs](docs/img/agentcore_log.png)
+  ![Agent diagnosis execution logs](docs/img/agentcore_log01.png)
 
 ---
 
@@ -115,9 +115,13 @@ Notification and debugging in action:
 
 - Human Remediation
 
-  ![Operator applies the remediation](docs/img/ks8_remediation01.png)
+  ```yaml
+  env:
+    - name: LEAK_ENABLED # var to enable leak
+      value: "false" # debug by "false"
+  ```
 
-- Recovery Confirmed
+- Recovery Confirmed: Alarm status = ok
 
   ![CloudWatch alarm returns to OK](docs/img/cloudwatch_alarm02.png)
 

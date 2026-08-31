@@ -28,7 +28,7 @@ spec:
             - containerPort: 8000
           env:
             - name: LEAK_ENABLED # enable leak
-              value: "true"
+              value: "false" # debug by "false"
             - name: LEAK_START_SECONDS # leak start time
               value: "120" # 2min
             - name: LEAK_MB_PER_TICK

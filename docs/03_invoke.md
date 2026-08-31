@@ -7,7 +7,6 @@
   - [Lambda function](#lambda-function)
     - [Lambda image](#lambda-image)
     - [Lambda deploy](#lambda-deploy)
-  - [](#)
 
 ---
 
@@ -64,7 +63,6 @@ terraform -chdir=infra/cluster fmt && terraform -chdir=infra/cluster validate
 terraform -chdir=infra/cluster apply -auto-approve
 
 # confirm
-```sh
 kubectl rollout restart deploy/aiops-agentcore-workload -n demo-workload
 # deployment.apps/aiops-agentcore-workload restarted
 
@@ -73,8 +71,3 @@ aws logs tail /aws/lambda/aiops-agentcore-cluster-trigger --follow --region ca-c
 # incident_detected: {...}
 # incident_report:   {"root_cause": "...", "confidence": "high", ...}
 ```
-```
-
----
-
-##

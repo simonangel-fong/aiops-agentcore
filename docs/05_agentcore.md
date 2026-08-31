@@ -7,6 +7,10 @@
     - [Agent image](#agent-image)
     - [AgentCore deploy](#agentcore-deploy)
     - [Test runtime](#test-runtime)
+  - [Confirm invocation](#confirm-invocation)
+  - [Notification](#notification)
+    - [Dev email](#dev-email)
+    - [Slack](#slack)
 
 ---
 
@@ -77,3 +81,47 @@ aws bedrock-agentcore invoke-agent-runtime --agent-runtime-arn "arn:aws:bedrock-
 ```
 
 ---
+
+## Confirm invocation
+
+- check log
+
+```sh
+aws logs tail "/aws/bedrock-agentcore/runtimes/aiops_agentcore_cluster_agent-U0qT9XACgj-DEFAULT" --region ca-central-1 --follow
+
+```
+
+- Confirm in cloudwatch log group
+
+![agentcore_log01](./img/agentcore_log01.png)
+
+![agentcore_log02](./img/agentcore_log02.png)
+
+![agentcore_log03](./img/agentcore_log03.png)
+
+![agentcore_log04](./img/agentcore_log04.png)
+
+---
+
+## Notification
+
+### Dev email
+
+```sh
+# test publish
+aws sns publish --topic-arn "arn:aws:sns:ca-central-1:099139718958:aiops-agentcore-cluster-incident" --subject "test" --message "incident report test" --region ca-central-1
+# {
+#     "MessageId": "050c38a4-7319-585f-8e48-5bab8a979387"
+# }
+
+```
+
+![sns_email_test](./img/sns_email_test.png)
+
+---
+
+### Slack
+
+![slack_msg01](./img/slack_msg01.png)
+
+![slack_msg02](./img/slack_msg02.png)
