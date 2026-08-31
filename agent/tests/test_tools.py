@@ -87,12 +87,15 @@ def test_runbook_retrieval():
 
 # --- contract: missing data is reported, never inferred ---------------------
 
+
+@live_only
 def test_missing_pod_reports_unavailable():
     r = get_pod_status(namespace=NS, pod="no-such-app-xyz")
     assert r["available"] is False
     assert "no pod matching" in r["reason"]
 
 
+@live_only
 def test_missing_metrics_report_unavailable():
     r = get_memory_metrics(namespace=NS, pod="no-such-app-xyz")
     assert r["available"] is False

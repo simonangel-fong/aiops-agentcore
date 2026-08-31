@@ -28,13 +28,17 @@ gh variable set AWS_ROLE_ARN_ECR_OIDC -b "arn:aws:iam::099139718958:role/aiops-a
 
 ## Pipeline
 
-| Pipeline                | Description                         |
-| ----------------------- | ----------------------------------- |
-| build-push-ecr-workload | build and push demo workload image  |
-| terraform-apply-project | apply project level terraform codes |
+| Pipeline                | Description                              |
+| ----------------------- | ---------------------------------------- |
+| build-push-ecr-workload | build and push demo workload image       |
+| build-push-ecr-trigger  | build and push demo lambda trigger image |
 
 ```sh
 gh workflow run build-push-ecr-workload
+
+gh workflow run build-push-ecr-trigger
 ```
 
 ![cicd_image_workload](./img/cicd_image_workload.png)
+
+![cicd_image_trigger](./img/cicd_image_trigger.png)

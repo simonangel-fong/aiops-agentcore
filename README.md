@@ -144,6 +144,10 @@ Defense-in-depth guardrails prevent the agent from making unsafe changes to the 
 | CI/CD                  | `GitHub Actions` builds the `Docker` image and pushes it to `Amazon ECR`    |
 | Workload Deployment    | `Kubernetes` manifests deploy the containerized application to `Amazon EKS` |
 
+- `GitHub Actions` CI workflow
+
+![cicd_image_workload](./docs/img/cicd_image_workload.png)
+
 ---
 
 ## MVP Scope and Roadmap
