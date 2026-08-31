@@ -7,8 +7,6 @@
     - [Agent image](#agent-image)
     - [AgentCore deploy](#agentcore-deploy)
     - [Test runtime](#test-runtime)
-  - [Bedrock knowledge base](#bedrock-knowledge-base)
-- [Bedrock Knowledge Base](#bedrock-knowledge-base-1)
 
 ---
 
@@ -79,48 +77,3 @@ aws bedrock-agentcore invoke-agent-runtime --agent-runtime-arn "arn:aws:bedrock-
 ```
 
 ---
-
-## Bedrock knowledge base
-
-# Bedrock Knowledge Base
-
-```sh
-# get kb
-terraform -chdir=infra/cluster output -raw knowledge_base_id
-# DR2GI2F7DE
-
-# get kb source
-terraform -chdir=infra/cluster output -raw knowledge_base_data_source_id
-# 6SPEYBHNGY
-
-# ingest kb from data source
-aws bedrock-agent start-ingestion-job --knowledge-base-id "DR2GI2F7DE" --data-source-id "6SPEYBHNGY" --region ca-central-1
-# {
-#     "ingestionJob": {
-#         "knowledgeBaseId": "DR2GI2F7DE",
-#         "dataSourceId": "6SPEYBHNGY",
-#         "ingestionJobId": "SMSZ8GIZ5E",
-#         "status": "STARTING",
-#         "statistics": {
-#             "numberOfDocumentsScanned": 0,
-#             "numberOfMetadataDocumentsScanned": 0,
-#             "numberOfNewDocumentsIndexed": 0,
-#             "numberOfModifiedDocumentsIndexed": 0,
-#             "numberOfMetadataDocumentsModified": 0,
-#             "numberOfDocumentsDeleted": 0,
-#             "numberOfDocumentsFailed": 0
-#         },
-#         "startedAt": "2026-08-29T21:16:07.934780+00:00",
-#         "updatedAt": "2026-08-29T21:16:07.934780+00:00"
-#     }
-# }
-
-
-# confirm injest job complete
-aws bedrock-agent get-ingestion-job --knowledge-base-id "DR2GI2F7DE" --data-source-id "6SPEYBHNGY" --ingestion-job-id "SMSZ8GIZ5E" --region ca-central-1 --query 'ingestionJob.[status,statistics.numberOfNewDocumentsIndexed,statistics.numberOfDocumentsFailed]' --output text
-# COMPLETE       1       0
-
-# retrieve
-aws bedrock-agent-runtime retrieve --knowledge-base-id "DR2GI2F7DE" --region ca-central-1 --retrieval-query '{"text":"container exit code 137"}' --query 'retrievalResults[].[score]' --output text
-# 0.8331561982631683
-```

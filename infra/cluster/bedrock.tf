@@ -115,3 +115,22 @@ resource "aws_bedrockagent_data_source" "runbook" {
     }
   }
 }
+
+# #################################
+# Bedrock: KB ingestion
+# #################################
+resource "terraform_data" "runbook_ingestion" {
+  triggers_replace = [
+    aws_bedrockagent_data_source.runbook.data_source_id,
+    aws_s3_object.runbook.etag,
+  ]
+
+  provisioner "local-exec" {
+    command = join(" ", [
+      "aws bedrock-agent start-ingestion-job",
+      "--knowledge-base-id ${aws_bedrockagent_knowledge_base.runbook.id}",
+      "--data-source-id ${aws_bedrockagent_data_source.runbook.data_source_id}",
+      "--region ${local.aws_region}",
+    ])
+  }
+}
