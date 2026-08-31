@@ -7,8 +7,6 @@
   - [Docker image](#docker-image)
   - [K8s - local](#k8s---local)
   - [K8s - EKS](#k8s---eks)
-  - [App deployment](#app-deployment)
-  - [Phase 1 checkpoint — passed](#phase-1-checkpoint--passed)
 
 ---
 
@@ -27,6 +25,10 @@ python -m uvicorn src.main:app
 pytest demo-workload/
 # 5 passed
 ```
+
+- Test: rss accumulating
+
+![app_ram01](./img/app_ram01.png)
 
 ---
 
@@ -108,52 +110,28 @@ kubectl logs -n demo-workload aiops-agentcore-workload-6ccbd8bd96-zmtjw --previo
 
 ## K8s - EKS
 
-
-## App deployment
-
 ```sh
 # update config
-aws eks update-kubeconfig --region ca-central-1 --name kube-agent
-# Added new context arn:aws:eks:ca-central-1:099139718958:cluster/kube-agent to /home/ubuntuadmin/.kube/config
+aws eks update-kubeconfig --region ca-central-1 --name aiops-agentcore
+# Added new context arn:aws:eks:ca-central-1:099139718958:cluster/aiops-agentcore to C:\Users\simon\.kube\config
 
 # deploy app: test OOM
 kubectl apply -f k8s/
-# namespace/incident-demo created
-# deployment.apps/kube-agent-app created
-# service/kube-agent-app created
-
-# confirm
-kubectl get all -n incident-demo
-# NAME                                  READY   STATUS    RESTARTS   AGE
-# pod/kube-agent-app-78c8d9b87f-2q8gx   1/1     Running   0          35s
-
-# NAME                     TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-# service/kube-agent-app   ClusterIP   172.20.243.3   <none>        8000/TCP   34s
-
-# NAME                             READY   UP-TO-DATE   AVAILABLE   AGE
-# deployment.apps/kube-agent-app   1/1     1            1           35s
-
-# NAME                                        DESIRED   CURRENT   READY   AGE
-# replicaset.apps/kube-agent-app-78c8d9b87f   1         1         1       35s
+# namespace/demo-workload created
+# deployment.apps/aiops-agentcore-workload created
+# service/aiops-agentcore-workload created
 
 # confirm OOM
-kubectl get po -n incident-demo -w
+kubectl get po -n demo-workload -w
 # NAME                              READY   STATUS    RESTARTS   AGE
 # kube-agent-app-78c8d9b87f-2q8gx   1/1     Running   0          90s
 # kube-agent-app-78c8d9b87f-2q8gx   0/1     OOMKilled   0          3m3s
 # kube-agent-app-78c8d9b87f-2q8gx   0/1     Running     1 (2s ago)   3m4s
-```
 
-## Phase 1 checkpoint — passed
-
-```bash
-kubectl describe pod -n incident-demo -l app=kube-agent-app | grep -A4 Last
+kubectl describe pod -n demo-workload -l app=aiops-agentcore-workload | grep -A4 Last
 # Last State:     Terminated
 #   Reason:       OOMKilled
 #   Exit Code:    137
-#   Started:      Sat, 29 Aug 2026 14:05:01 -0400
-#   Finished:     Sat, 29 Aug 2026 14:07:59 -0400
-
-kubectl logs -n incident-demo kube-agent-app-78c8d9b87f-2q8gx --previous | tail -1
-# {"timestamp": "2026-08-29T18:07:58+0000", "level": "INFO", "event": "leak_progress", "allocated_mb": 220, "rss_mb": 271}
+#   Started:      Mon, 31 Aug 2026 15:38:17 -0400
+#   Finished:     Mon, 31 Aug 2026 15:41:14 -0400
 ```

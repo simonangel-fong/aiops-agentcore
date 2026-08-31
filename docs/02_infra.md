@@ -35,10 +35,10 @@ terraform -chdir=infra/project plan
 terraform -chdir=infra/project apply -auto-approve
 
 # Read outputs
-terraform output
-terraform output -raw github_oidc_role_arn
-terraform output -raw github_terraform_role_arn
-terraform output -raw ecr_registry
+terraform -chdir=infra/project output
+terraform -chdir=infra/project output -raw github_oidc_role_arn
+terraform -chdir=infra/project output -raw github_terraform_role_arn
+terraform -chdir=infra/project output -raw ecr_registry
 ```
 
 Verify against AWS:
