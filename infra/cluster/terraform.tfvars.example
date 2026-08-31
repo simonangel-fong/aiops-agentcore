@@ -1,0 +1,5 @@
+incident_email = "you@example.com"
+
+# after authorising the workspace in the console
+# slack_team_id    = "T0123456789"
+# slack_channel_id = "C0123456789"

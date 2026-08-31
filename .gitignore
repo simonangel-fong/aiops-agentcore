@@ -149,6 +149,8 @@ activemq-data/
 
 # Environments
 .env
+.env.*
+!.env.example
 .envrc
 .venv
 env/
@@ -200,6 +202,14 @@ cython_debug/
 #   and can be added to the global gitignore or merged into this file. However, if you prefer, 
 #   you could uncomment the following to ignore the entire vscode folder
 # .vscode/
+.vscode/
+
+# JetBrains IDEs
+.idea/
+
+# Operating system metadata
+.DS_Store
+Thumbs.db
 # Temporary file for partial code execution
 tempCodeRunnerFile.py
 
@@ -216,3 +226,17 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Terraform
+# State lives in S3 for both modules; never commit it locally.
+# .terraform.lock.hcl IS committed on purpose (pins provider versions).
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfplan
+crash.log
+backend.hcl
+.terraformrc
+terraform.rc
+

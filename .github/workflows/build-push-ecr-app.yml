@@ -1,0 +1,79 @@
+name: build-push-ecr-app
+
+# Builds the demo workload image and pushes it to ECR.
+# The EKS deployment pulls :latest, so every push moves that tag.
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - "app/**"
+      - ".github/workflows/build-push-ecr-app.yml"
+
+env:
+  AWS_REGION: ca-central-1
+  ECR_REPOSITORY: aiops-agentcore-workload
+
+# OIDC federation into AWS; no long-lived keys.
+permissions:
+  id-token: write
+  contents: read
+
+# One build at a time: concurrent pushes would race on the :latest tag.
+concurrency:
+  group: build-push-ecr-app
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: pytest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: app/requirements-dev.txt
+
+      - name: Install dependencies
+        run: pip install -r app/requirements-dev.txt
+
+      - name: Run app tests
+        run: pytest app/tests
+
+  build-push:
+    name: build and push
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN_GH_OIDC }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: app
+          # The Dockerfile pins --platform=linux/amd64 to match the EKS nodes.
+          platforms: linux/amd64
+          push: true
+          provenance: false
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Summarise
+        run: |
+          echo "Pushed \`${ECR_REPOSITORY}:latest\` and \`${ECR_REPOSITORY}:${GITHUB_SHA}\`" >> "$GITHUB_STEP_SUMMARY"
