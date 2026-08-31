@@ -6,6 +6,7 @@
   - [Agent](#agent)
     - [Agent image](#agent-image)
     - [AgentCore deploy](#agentcore-deploy)
+    - [Test runtime](#test-runtime)
 
 ---
 
@@ -56,4 +57,21 @@ docker buildx build --platform linux/arm64 -t "099139718958.dkr.ecr.ca-central-1
 ```sh
 terraform -chdir=infra/cluster fmt && terraform -chdir=infra/cluster validate
 terraform -chdir=infra/cluster apply -auto-approve
+```
+
+---
+
+### Test runtime
+
+```sh
+terraform -chdir=infra/cluster output -raw agent_runtime_arn
+# arn:aws:bedrock-agentcore:ca-central-1:099139718958:runtime/aiops_agentcore_cluster_agent-U0qT9XACgj
+
+# test runtime
+aws bedrock-agentcore invoke-agent-runtime --agent-runtime-arn "arn:aws:bedrock-agentcore:ca-central-1:099139718958:runtime/aiops_agentcore_cluster_agent-U0qT9XACgj" --region ca-central-1 --content-type application/json --payload fileb://agent/runtime_test/payload.json agent/runtime_test/out.json
+# {                                                                                                                               
+#     "runtimeSessionId": "8cb3dbf6-69ac-4e34-9b97-7a0eedcdd751",
+#     "contentType": "application/json",
+#     "statusCode": 200
+# }
 ```
