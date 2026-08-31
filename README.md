@@ -77,6 +77,8 @@ The incident then progresses through three AIOps stages:
 - `Amazon CloudWatch Container Insights` collects operational metrics from the `EKS` workload.
 - A `CloudWatch alarm` monitors container restarts and emits an event when the configured threshold is breached.
 
+`CloudWatch Alarm` in acion: EKS container restart
+
 ![cloudwatch_alarm01](./docs/img/cloudwatch_alarm01.png)
 
 ---
