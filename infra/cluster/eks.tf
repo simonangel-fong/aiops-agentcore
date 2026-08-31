@@ -28,6 +28,17 @@ module "eks" {
   # addons
   # #################################
   addons = {
+    vpc-cni = {
+      before_compute = true
+      most_recent    = true
+    }
+    kube-proxy = {
+      before_compute = true
+      most_recent    = true
+    }
+    coredns = {
+      most_recent = true
+    }
     amazon-cloudwatch-observability = {}
   }
 

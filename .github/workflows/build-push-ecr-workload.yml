@@ -60,8 +60,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: demo-workload
-          # The Dockerfile pins --platform=linux/amd64 to match the EKS nodes.
-          platforms: linux/amd64
+          platforms: linux/amd64 # match the EKS nodes
           push: true
           provenance: false
           tags: |
