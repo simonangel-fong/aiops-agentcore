@@ -64,11 +64,11 @@ This demo simulates a memory leak that passes canary validation and reaches prod
 
 The incident then progresses through three AIOps stages:
 
-- **Observe** detects the failure
-- **Engage** diagnoses the cause
-- **Act** delivers the findings for human-controlled remediation.
+- **Observe**: detects the failure
+- **Engage**: diagnoses the cause
+- **Act**: delivers the findings for human-controlled remediation.
 
-![Observe, Engage, and Act workflow](./docs/img/diagram_aiops.gif)
+![Observe, Engage, and Act workflow](./docs/img/diagram_aiops.png)
 
 ---
 
@@ -187,3 +187,7 @@ The current MVP intentionally focuses on read-only diagnosis of a single `OOMKil
 - [Agent runtime in `AgentCore`](./docs/05_agentcore.md)
 - [CI/CD pipelines](./docs/06_cicd.md)
 - [Incident demo](./docs/07_demo.md)
+
+---
+
+web

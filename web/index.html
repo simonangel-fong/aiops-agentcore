@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kubernetes AIOps with Amazon Bedrock AgentCore</title>
+  <link rel="icon" type="image/png" href="assets/img/logo.png" />
+  <meta name="description"
+    content="Event-driven, human-in-the-loop incident diagnosis for Amazon EKS using a read-only AI agent on Amazon Bedrock AgentCore." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/tailwind.config.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body class="bg-ink text-slate-300 font-sans antialiased">
+
+  <!-- navbar -->
+  <header class="fixed top-0 inset-x-0 z-50 border-b border-edge/70 bg-ink/85 backdrop-blur">
+    <div class="mx-auto w-11/12 md:w-10/12 lg:w-9/12 max-w-6xl flex items-center justify-between h-16">
+      <a href="#top" class="group flex items-center gap-2.5 font-semibold text-slate-100">
+        <span
+          class="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg ring-1 ring-edge transition group-hover:ring-accent/60">
+          <img src="assets/img/logo.png" alt="" aria-hidden="true" class="h-[135%] w-[135%] max-w-none object-cover" />
+        </span>
+        <span>AIOps<span class="text-accent">&middot;</span>AgentCore</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#challenge" class="hover:text-accent transition">Challenge</a>
+        <a href="#architecture" class="hover:text-accent transition">Architecture</a>
+        <a href="#workflow" class="hover:text-accent transition">Workflow</a>
+        <a href="#safety" class="hover:text-accent transition">Safety</a>
+        <a href="#tech" class="hover:text-accent transition">Technology</a>
+      </nav>
+      <button id="navToggle" class="md:hidden text-slate-300 hover:text-accent" aria-label="Toggle navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+    <nav id="mobileNav" class="hidden md:hidden border-t border-edge/70 bg-ink/95">
+      <div class="mx-auto w-11/12 py-3 flex flex-col gap-3 text-sm">
+        <a href="#challenge" class="hover:text-accent">Challenge</a>
+        <a href="#architecture" class="hover:text-accent">Architecture</a>
+        <a href="#workflow" class="hover:text-accent">Workflow</a>
+        <a href="#safety" class="hover:text-accent">Safety</a>
+        <a href="#tech" class="hover:text-accent">Technology</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- hero -->
+  <section id="top" class="hero-bg relative flex min-h-[88vh] items-center bg-cover bg-center"
+    style="background-image:url('assets/img/bg.jpg')">
+    <div class="relative z-10 mx-auto w-11/12 max-w-6xl pt-32 pb-24 md:w-10/12 lg:w-9/12">
+      <div class="hero-copy max-w-md lg:max-w-[30rem]">
+        <h1 class="text-2xl font-bold leading-tight text-slate-50 sm:text-[2rem] lg:text-[2.5rem]">
+          Kubernetes <code class="inline text-[0.78em]">AIOps</code><br class="hidden sm:block" />
+          with <code class="inline text-[0.78em]">Amazon Bedrock AgentCore</code>
+        </h1>
+        <p class="mt-5 text-base font-medium text-slate-400">
+          Event-driven, human-in-the-loop incident diagnosis assistant
+        </p>
+        <p class="mt-4 text-xl leading-relaxed text-slate-200">
+          An <code class="inline">AIOps</code> demonstration that detects <code class="inline">EKS</code> container
+          incidents and triggers a read-only AI agent built on <code class="inline">Amazon Bedrock AgentCore</code>.
+        </p>
+
+        <div class="mt-7 flex flex-wrap items-center gap-1.5 opacity-80">
+          <img class="h-[18px]" alt="Amazon Bedrock"
+            src="https://img.shields.io/badge/Amazon%20Bedrock-FF9900?style=flat-square&logo=amazonwebservices&logoColor=white" />
+          <img class="h-[18px]" alt="Amazon EKS"
+            src="https://img.shields.io/badge/Amazon%20EKS-FF9900?style=flat-square&logo=amazoneks&logoColor=white" />
+          <img class="h-[18px]" alt="Terraform"
+            src="https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white" />
+          <img class="h-[18px]" alt="Kubernetes"
+            src="https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white" />
+        </div>
+
+        <div class="mt-9 flex flex-wrap gap-4">
+          <a href="#workflow"
+            class="rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-ink transition hover:bg-amber-400">Explore
+            the workflow</a>
+          <a href="#architecture"
+            class="rounded-md border border-edge bg-ink/40 px-5 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-accent hover:text-accent">View
+            architecture</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="mx-auto w-11/12 md:w-10/12 lg:w-9/12 max-w-6xl">
+
+    <!-- business challenge -->
+    <section id="challenge" class="scroll-mt-24 py-20 border-t border-edge/60">
+      <h2 class="text-4xl font-bold text-slate-100">AIOps and Business Challenge</h2>
+
+      <div class="mt-8 max-w-3xl space-y-8">
+        <div>
+          <p class="text-lg leading-relaxed text-slate-300">
+            Today, <code class="inline">Kubernetes</code> incident diagnosis is <strong
+              class="font-semibold text-slate-100">manual</strong>:
+          </p>
+          <ul class="mt-3 space-y-2 text-slate-400">
+            <li class="flex gap-3">
+              <span class="mt-[0.6rem] h-1 w-3 shrink-0 rounded-full bg-slate-600"></span>
+              <span>Operators correlate alerts, pod status, logs, events, and runbooks by hand.</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="mt-[0.6rem] h-1 w-3 shrink-0 rounded-full bg-slate-600"></span>
+              <span>Time to resolution depends on who is on call and how well they know the system.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="text-lg leading-relaxed text-slate-300">
+            With <code class="inline">AIOps</code>, the same evidence is gathered and read by an
+            <strong class="font-semibold text-slate-100">agent</strong>:
+          </p>
+          <ul class="mt-3 space-y-2 text-slate-400">
+            <li class="flex gap-3">
+              <span class="mt-[0.6rem] h-1 w-3 shrink-0 rounded-full bg-accent"></span>
+              <span>Operational data is connected automatically the moment an incident fires.</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="mt-[0.6rem] h-1 w-3 shrink-0 rounded-full bg-accent"></span>
+              <span>Operators receive a likely root cause and verification steps, not raw signals.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <blockquote class="mt-10 max-w-4xl border-l-2 border-accent bg-accent/5 px-6 py-4 text-lg italic text-slate-200">
+        How can teams integrate an <code class="inline not-italic">AIOps workflow</code> into existing infrastructure
+        without granting unsafe production access?
+      </blockquote>
+
+      <p class="mt-8 text-lg text-slate-400">
+        This project explores that challenge through a secure, event-driven workflow that diagnoses an
+        <code class="inline">OOMKilled</code> container incident in <code class="inline">Amazon EKS</code>:
+      </p>
+
+      <div class="mt-6 overflow-x-auto rounded-xl border border-edge bg-panel p-5">
+        <pre
+          class="font-mono text-sm text-slate-300">OOMKilled &rarr; CloudWatch &rarr; EventBridge &rarr; Lambda &rarr; Read-only Agent &rarr; Slack Report &rarr; Human Decision</pre>
+      </div>
+
+      <p class="mt-6 text-lg text-slate-400">
+        The <code class="inline">agent</code> gathers evidence and recommends verification commands,
+        <code class="inline">while</code> the operator retains control over remediation.
+      </p>
+    </section>
+
+    <!-- architecture -->
+    <section id="architecture" class="scroll-mt-24 py-20 border-t border-edge/60">
+      <h2 class="text-4xl font-bold text-slate-100">Architecture</h2>
+      <figure class="mt-8 rounded-xl border border-edge bg-panel p-4">
+        <img src="assets/img/diagram_architecture.gif" alt="Solution architecture diagram" class="w-full rounded-lg"
+          loading="lazy" data-fallback />
+        <div hidden class="rounded-lg border border-dashed border-edge px-6 py-12 text-center text-sm text-slate-500">
+          Solution architecture diagram &mdash; diagram not available.</div>
+      </figure>
+    </section>
+
+    <!-- workflow -->
+    <section id="workflow" class="scroll-mt-24 py-20 border-t border-edge/60">
+      <h2 class="text-4xl font-bold text-slate-100">AIOps Workflow</h2>
+      <p class="mt-6 max-w-4xl text-xl text-slate-400">
+        This demo simulates a memory leak that passes canary validation and reaches production. Memory usage continues
+        to grow until the container exceeds its Kubernetes memory limit and is terminated with
+        <code class="inline">OOMKilled</code>.
+      </p>
+      <p class="mt-4 text-slate-400">The incident then progresses through three AIOps stages:</p>
+
+      <div class="mt-8 grid items-stretch gap-3 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:gap-4">
+        <div class="card flex h-full flex-col rounded-xl border border-edge p-5">
+          <span class="font-mono text-xs text-accent/50">01</span>
+          <span class="mt-1 font-mono text-sm uppercase tracking-widest text-accent">Observe</span>
+          <p class="mt-2 text-sm leading-relaxed text-slate-400">Detects the failure.</p>
+        </div>
+        <div class="flex justify-center" aria-hidden="true">
+          <svg class="h-5 w-5 rotate-90 text-accent/60 sm:rotate-0" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="1.75">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-5.25-5.25M19.5 12l-5.25 5.25" />
+          </svg>
+        </div>
+        <div class="card flex h-full flex-col rounded-xl border border-edge p-5">
+          <span class="font-mono text-xs text-accent/50">02</span>
+          <span class="mt-1 font-mono text-sm uppercase tracking-widest text-accent">Engage</span>
+          <p class="mt-2 text-sm leading-relaxed text-slate-400">Diagnoses the cause.</p>
+        </div>
+        <div class="flex justify-center" aria-hidden="true">
+          <svg class="h-5 w-5 rotate-90 text-accent/60 sm:rotate-0" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="1.75">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-5.25-5.25M19.5 12l-5.25 5.25" />
+          </svg>
+        </div>
+        <div class="card flex h-full flex-col rounded-xl border border-edge p-5">
+          <span class="font-mono text-xs text-accent/50">03</span>
+          <span class="mt-1 font-mono text-sm uppercase tracking-widest text-accent">Act</span>
+          <p class="mt-2 text-sm leading-relaxed text-slate-400">Delivers the findings for human-controlled remediation.
+          </p>
+        </div>
+      </div>
+
+      <!-- <figure class="mt-8 rounded-xl border border-edge bg-panel p-4">
+        <img src="assets/img/diagram_aiops.gif" alt="Observe, Engage, and Act workflow" class="w-full rounded-lg"
+          loading="lazy" data-fallback />
+        <div hidden class="rounded-lg border border-dashed border-edge px-6 py-12 text-center text-sm text-slate-500">
+          Observe, Engage, and Act workflow &mdash; diagram not available.</div>
+      </figure> -->
+
+      <!-- observe -->
+      <div id="observe" class="scroll-mt-24 mt-16">
+        <h3 class="text-3xl font-semibold text-slate-100">
+          <span class="text-accent">Observe</span> &mdash; Cluster Monitoring and Alerting
+        </h3>
+        <ul class="mt-5 text-lg list-disc space-y-3 pl-5 text-slate-400 marker:text-accent">
+          <li><code class="inline">Amazon CloudWatch Container Insights</code> collects operational metrics from the
+            <code class="inline">EKS</code> workload.
+          </li>
+          <li>A <code class="inline">CloudWatch alarm</code> monitors container restarts and emits an event when the
+            configured threshold is breached.</li>
+        </ul>
+        <figure class="mt-6 rounded-xl border border-edge bg-panel p-4">
+          <img src="assets/img/cloudwatch_alarm01.png" alt="CloudWatch alarm on EKS container restarts"
+            class="w-full rounded-lg" loading="lazy" />
+          <figcaption class="mt-3 text-center text-sm text-slate-500">
+            <code class="inline">CloudWatch Alarm</code> in action: EKS container restart
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- engage -->
+      <div id="engage" class="scroll-mt-24 mt-16">
+        <h3 class="text-3xl font-semibold text-slate-100">
+          <span class="text-accent">Engage</span> &mdash; AI-Assisted Incident Diagnosis
+        </h3>
+        <ul class="mt-5 list-disc space-y-3 pl-5 text-lg text-slate-400 marker:text-accent">
+          <li><code class="inline">EventBridge</code> routes the <code class="inline">CloudWatch alarm</code> event to
+            <code class="inline">Lambda</code>, which invokes the agent hosted on
+            <code class="inline">Amazon Bedrock AgentCore Runtime</code>.
+          </li>
+          <li>The <code class="inline">agent</code> gathers read-only cluster evidence, consults the runbook, and
+            identifies the likely root cause.</li>
+        </ul>
+        <div class="mt-6 space-y-6">
+          <figure class="rounded-xl border border-edge bg-panel p-4">
+            <img src="assets/img/agentcore_runtime.png" alt="Agent deployed in AgentCore Runtime"
+              class="w-full rounded-lg" loading="lazy" />
+            <figcaption class="mt-3 text-center text-sm text-slate-500">AgentCore Runtime</figcaption>
+          </figure>
+          <figure class="rounded-xl border border-edge bg-panel p-4">
+            <img src="assets/img/agentcore_log01.png" alt="Agent diagnosis execution logs" class="w-full rounded-lg"
+              loading="lazy" />
+            <figcaption class="mt-3 text-center text-sm text-slate-500">Agent execution logs: tool calling and analysis
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- act -->
+      <div id="act" class="scroll-mt-24 mt-16">
+        <h3 class="text-3xl font-semibold text-slate-100">
+          <span class="text-accent">Act</span> &mdash; Slack Notification and Human Decision
+        </h3>
+        <ul class="mt-5 list-disc space-y-3 pl-5 tex-lg text-slate-400 marker:text-accent">
+          <li>The <code class="inline">agent</code> posts a <strong class="text-slate-200">preliminary RCA
+              report</strong>
+            and verification commands to <code class="inline">Slack</code>.</li>
+          <li>The <code class="inline">operator</code> validates the findings, selects the remediation, and confirms
+            recovery when the <code class="inline">CloudWatch alarm</code> returns to <code class="inline">OK</code>.
+          </li>
+        </ul>
+
+        <div class="mt-6 space-y-6">
+          <figure class="rounded-xl border border-edge bg-panel p-4">
+            <img src="assets/img/slack_msg01.png" alt="Agent-generated RCA in Slack" class="w-full rounded-lg"
+              loading="lazy" />
+            <figcaption class="mt-3 text-center text-sm text-slate-500">1. Automated RCA in <code
+                class="inline">Slack</code></figcaption>
+          </figure>
+          <figure class="rounded-xl border border-edge bg-panel p-4">
+            <img src="assets/img/k8s_confirm01.png" alt="Operator verifies the diagnosis" class="w-full rounded-lg"
+              loading="lazy" />
+            <figcaption class="mt-3 text-center text-sm text-slate-500">2. Human verification</figcaption>
+          </figure>
+        </div>
+
+        <p class="mt-8 font-semibold text-slate-200">3. Human remediation</p>
+        <div class="mt-4 overflow-x-auto rounded-xl border border-edge bg-panel p-5">
+          <pre class="font-mono text-sm text-slate-300">env:
+  - name: LEAK_ENABLED <span class="text-slate-500"># var to enable leak</span>
+    value: "false"     <span class="text-slate-500"># debug by "false"</span></pre>
+        </div>
+        <div class="mt-4 overflow-x-auto rounded-xl border border-edge bg-panel p-5">
+          <pre class="font-mono text-sm text-slate-300">kubectl apply -f k8s/
+<span class="text-slate-500"># namespace/demo-workload unchanged
+# deployment.apps/aiops-agentcore-workload configured
+# service/aiops-agentcore-workload unchanged</span></pre>
+        </div>
+
+        <figure class="mt-8 rounded-xl border border-edge bg-panel p-4">
+          <img src="assets/img/cloudwatch_alarm02.png" alt="CloudWatch alarm returns to OK" class="w-full rounded-lg"
+            loading="lazy" />
+          <figcaption class="mt-3 text-center text-sm text-slate-500">
+            4. Recovery confirmed: alarm status = <code class="inline">OK</code> &mdash; no more alarm count after fix.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- safety -->
+    <section id="safety" class="scroll-mt-24 py-20 border-t border-edge/60">
+      <h2 class="text-4xl font-bold text-slate-100">Safety and Guardrails</h2>
+      <p class="mt-6 text-lg max-w-4xl text-slate-400">
+        Defense-in-depth guardrails prevent the agent from making unsafe changes to the EKS workload.
+      </p>
+
+      <div class="mt-10 space-y-12">
+        <div>
+          <h3 class="text-3xl font-semibold text-slate-100">
+            <span class="text-accent">Authorization</span> boundary
+          </h3>
+          <p class="mt-4 text-lg max-w-3xl text-slate-400">
+            <code class="inline">Kubernetes RBAC</code> restricts the agent to
+            <strong class="text-slate-200">read-only</strong> cluster operations.
+          </p>
+          <figure class="mt-6 rounded-xl border border-edge bg-panel p-4">
+            <img src="assets/img/k8s_auth01.png" alt="Kubernetes RBAC read-only policy" class="w-full rounded-lg"
+              loading="lazy" />
+            <figcaption class="mt-3 text-center text-sm text-slate-500">
+              Agent role policy: <code class="inline">EKS View = read-only</code>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div>
+          <h3 class="text-3xl font-semibold text-slate-100">
+            <span class="text-accent">Behavioral</span> boundary
+          </h3>
+          <p class="mt-4 text-lg max-w-4xl text-slate-400">
+            Prompt rules prohibit remediation and mutating commands, keep recommendations advisory, and treat logs and
+            runbooks as untrusted data rather than instructions.
+          </p>
+          <figure class="mt-6 rounded-xl border border-edge bg-panel p-4">
+            <img src="assets/img/agent_sys_prompt02.png" alt="Agent system prompt guardrails" class="w-full rounded-lg"
+              loading="lazy" />
+            <figcaption class="mt-3 text-center text-sm text-slate-500">System prompt: read-only access; ignore
+              injection.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- technology and roadmap -->
+    <section id="tech" class="scroll-mt-24 py-20 border-t border-edge/60">
+      <h2 class="text-4xl font-bold text-slate-100">Technology &amp; Roadmap</h2>
+
+      <h3 class="mt-10 text-xl font-semibold text-slate-100">Underlying Engineering</h3>
+      <div class="mt-5 overflow-x-auto rounded-xl border border-edge">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-panel text-slate-200">
+            <tr>
+              <th class="px-5 py-3 font-semibold">Area</th>
+              <th class="px-5 py-3 font-semibold">Implementation</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-edge text-slate-400">
+            <tr>
+              <td class="px-5 py-3">Infrastructure as Code</td>
+              <td class="px-5 py-3"><code class="inline">Terraform</code> with remote state stored in Amazon
+                <code class="inline">S3</code>
+              </td>
+            </tr>
+            <tr>
+              <td class="px-5 py-3">CI/CD</td>
+              <td class="px-5 py-3"><code class="inline">GitHub Actions</code> builds the
+                <code class="inline">Docker</code> image and pushes it to <code class="inline">Amazon ECR</code>
+              </td>
+            </tr>
+            <tr>
+              <td class="px-5 py-3">Workload Deployment</td>
+              <td class="px-5 py-3"><code class="inline">Kubernetes</code> manifests deploy the containerized
+                application to <code class="inline">Amazon EKS</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="mt-6 rounded-xl border border-edge bg-panel p-4">
+        <img src="assets/img/cicd_image_workload.png" alt="GitHub Actions CI workflow" class="w-full rounded-lg"
+          loading="lazy" />
+        <figcaption class="mt-3 text-center text-sm text-slate-500"><code class="inline">GitHub Actions</code> CI
+          workflow
+        </figcaption>
+      </figure>
+
+      <h3 class="mt-14 text-xl font-semibold text-slate-100">MVP Scope and Roadmap</h3>
+      <p class="mt-4 text-slate-400">
+        The current MVP intentionally focuses on read-only diagnosis of a single <code class="inline">OOMKilled</code>
+        incident.
+      </p>
+      <div class="mt-5 overflow-x-auto rounded-xl border border-edge">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-panel text-slate-200">
+            <tr>
+              <th class="px-5 py-3 font-semibold">Stage</th>
+              <th class="px-5 py-3 font-semibold">Scope</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-edge text-slate-400">
+            <tr>
+              <td class="whitespace-nowrap px-5 py-3 text-accent">Current MVP</td>
+              <td class="px-5 py-3">Diagnose <code class="inline">OOMKilled</code> and send an RCA report to
+                <code class="inline">Slack</code> for human action
+              </td>
+            </tr>
+            <tr>
+              <td class="whitespace-nowrap px-5 py-3">Multi-Incident Diagnosis</td>
+              <td class="px-5 py-3">Support additional failures such as <code class="inline">CrashLoopBackOff</code>,
+                <code class="inline">ImagePullBackOff</code>, and scheduling errors
+              </td>
+            </tr>
+            <tr>
+              <td class="whitespace-nowrap px-5 py-3">Controlled Remediation</td>
+              <td class="px-5 py-3">Add operator-approved, policy-controlled remediation with validation and rollback
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- footer -->
+  <footer class="border-t border-edge/60">
+    <div
+      class="mx-auto flex w-11/12 max-w-6xl items-center justify-between py-8 text-sm text-slate-500 md:w-10/12 lg:w-9/12">
+      <span>&copy; 2026 <a href="https://www.arguswatcher.net">ArgusWatcher</a></span>
+      <a href="#top" class="transition hover:text-accent">back to top &uarr;</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>

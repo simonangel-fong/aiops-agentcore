@@ -1,0 +1,52 @@
+/* Shared styles for the AIOps AgentCore site. Tailwind handles layout;
+   this file holds the few rules Tailwind utilities cannot express inline. */
+
+body {
+  background-color: #0a0e14;
+}
+
+/* Inline code spans, matching the README's backtick emphasis. */
+code.inline {
+  font-family: 'JetBrains Mono', Consolas, ui-monospace, monospace;
+  color: #ffb347;
+  background: rgba(255, 153, 0, .09);
+  border: 1px solid rgba(255, 153, 0, .18);
+  border-radius: .3rem;
+  padding: .05rem .35rem;
+  font-size: .92em;
+}
+
+/* Hero overlay: kept light so the photo's subject stays visible. A gentle
+   vertical wash carries the top nav and the fade into the page below; a soft
+   left-weighted pass adds just enough contrast behind the copy. */
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(10, 14, 20, .8) 0%, rgba(10, 14, 20, .55) 32%, rgba(10, 14, 20, .1) 55%, rgba(10, 14, 20, 0) 75%),
+    linear-gradient(180deg, rgba(10, 14, 20, .35) 0%, rgba(10, 14, 20, .2) 35%, rgba(10, 14, 20, .75) 100%);
+}
+
+/* Below md the text spans the full width, so fall back to an even wash. */
+@media (max-width: 767px) {
+  .hero-bg::after {
+    background: linear-gradient(180deg, rgba(10, 14, 20, .8) 0%, rgba(10, 14, 20, .72) 45%, rgba(10, 14, 20, .9) 100%);
+  }
+}
+
+/* The lighter hero overlay means the copy sits closer to the photo, so a soft
+   shadow keeps it readable without darkening the image further. */
+.hero-copy h1,
+.hero-copy p {
+  text-shadow: 0 1px 12px rgba(10, 14, 20, .75);
+}
+
+/* Error page uses a flatter, even overlay at every width. */
+.hero-bg.hero-bg--flat::after {
+  background: linear-gradient(180deg, rgba(10, 14, 20, .85) 0%, rgba(10, 14, 20, .95) 100%);
+}
+
+.card {
+  background: linear-gradient(180deg, #111826 0%, #0d131f 100%);
+}
