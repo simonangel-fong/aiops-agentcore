@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram id="6jSSnqcTUoG3IBdhFKLj" name="Page-1">
-    <mxGraphModel dx="1015" dy="695" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+    <mxGraphModel dx="1726" dy="1182" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" style="locked=1;" />
@@ -18,7 +18,7 @@
         <mxCell id="IRIu0P6SQnyI69ZA3-8T-3" parent="Dmezgg2SFzdoQ4X9lvrz-6" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=20;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;fontFamily=Comic Sans MS;labelBackgroundColor=none;" value="S3&lt;div&gt;Remote state&lt;/div&gt;" vertex="1">
           <mxGeometry height="60" width="60" x="80" y="600" as="geometry" />
         </mxCell>
-        <mxCell id="IRIu0P6SQnyI69ZA3-8T-19" connectable="0" parent="Dmezgg2SFzdoQ4X9lvrz-6" style="group" value="" vertex="1">
+        <mxCell id="IRIu0P6SQnyI69ZA3-8T-19" connectable="0" parent="Dmezgg2SFzdoQ4X9lvrz-6" style="group;fontFamily=Comic Sans MS;" value="" vertex="1">
           <mxGeometry height="540" width="1220" x="237" y="160" as="geometry" />
         </mxCell>
         <mxCell id="IRIu0P6SQnyI69ZA3-8T-8" edge="1" parent="IRIu0P6SQnyI69ZA3-8T-19" source="HNX6aMQJ5ELVPrS4-DTt-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Comic Sans MS;fontSize=15;fontStyle=0;labelBackgroundColor=none;fontColor=default;strokeWidth=2;shadow=1;flowAnimation=1;" target="HNX6aMQJ5ELVPrS4-DTt-15" value="query log &amp;amp; event">
@@ -131,14 +131,30 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="b7PyJmgyXnsPiiLr0-mX-2" edge="1" parent="IRIu0P6SQnyI69ZA3-8T-19" source="b7PyJmgyXnsPiiLr0-mX-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Comic Sans MS;fontSize=15;labelBackgroundColor=none;flowAnimation=1;shadow=1;strokeWidth=2;" target="HNX6aMQJ5ELVPrS4-DTt-1" value="agent image">
+          <mxGeometry relative="1" x="-0.058" y="-20" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="b7PyJmgyXnsPiiLr0-mX-1" parent="IRIu0P6SQnyI69ZA3-8T-19" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.ecr;" value="&lt;font face=&quot;Comic Sans MS&quot; style=&quot;font-size: 16px;&quot;&gt;ECR&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="60" x="998" y="40" as="geometry" />
+        </mxCell>
         <mxCell id="IRIu0P6SQnyI69ZA3-8T-21" edge="1" parent="Dmezgg2SFzdoQ4X9lvrz-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;flowAnimation=1;shadow=1;strokeWidth=2;" target="IRIu0P6SQnyI69ZA3-8T-3">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="110" y="430" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="b7PyJmgyXnsPiiLr0-mX-3" parent="Dmezgg2SFzdoQ4X9lvrz-6" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=none;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/assets/font-awesome/1/GitHub_brand.svg;fontFamily=Comic Sans MS;fontSize=15;" value="GitHub&lt;div&gt;Actions&lt;/div&gt;&lt;div&gt;CI/CD&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="60" x="1500" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="b7PyJmgyXnsPiiLr0-mX-4" edge="1" parent="Dmezgg2SFzdoQ4X9lvrz-6" source="b7PyJmgyXnsPiiLr0-mX-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;fontFamily=Comic Sans MS;fontSize=16;labelBackgroundColor=none;flowAnimation=1;shadow=1;strokeWidth=2;" target="b7PyJmgyXnsPiiLr0-mX-1" value="push">
+          <mxGeometry relative="1" x="-0.0244" y="-20" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="IRIu0P6SQnyI69ZA3-8T-17" parent="0" style="locked=1;" value="group" />
         <mxCell id="IRIu0P6SQnyI69ZA3-8T-18" parent="IRIu0P6SQnyI69ZA3-8T-17" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud;strokeColor=#232F3E;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#232F3E;dashed=0;" value="AWS Cloud" vertex="1">
-          <mxGeometry height="440" width="1280" x="200" y="120" as="geometry" />
+          <mxGeometry height="440" width="1270" x="200" y="120" as="geometry" />
         </mxCell>
         <mxCell id="IRIu0P6SQnyI69ZA3-8T-20" edge="1" parent="IRIu0P6SQnyI69ZA3-8T-17" source="IRIu0P6SQnyI69ZA3-8T-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;flowAnimation=1;shadow=1;strokeWidth=2;exitX=0.5;exitY=0;exitDx=0;exitDy=0;labelBackgroundColor=none;fontFamily=Comic Sans MS;fontSize=16;" target="IRIu0P6SQnyI69ZA3-8T-18" value="provision">
           <mxGeometry relative="1" x="-0.3043" y="40" as="geometry">
