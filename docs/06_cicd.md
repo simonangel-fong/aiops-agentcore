@@ -32,6 +32,7 @@ gh variable set AWS_ROLE_ARN_ECR_OIDC -b "ecr_push_role"
 | ----------------------- | ---------------------------------------- |
 | build-push-ecr-workload | build and push demo workload image       |
 | build-push-ecr-trigger  | build and push demo lambda trigger image |
+| build-push-ecr-agent    | build and push demo lambda agent image   |
 
 ```sh
 gh workflow run build-push-ecr-workload
