@@ -1,11 +1,11 @@
-# AIOps-AgentCore: Demo
+# AIOps-AgentCore: OOM Incident Demo
 
 [Back](../README.md)
 
-- [AIOps-AgentCore: Demo](#aiops-agentcore-demo)
+- [AIOps-AgentCore: OOM Incident Demo](#aiops-agentcore-oom-incident-demo)
   - [Deploy](#deploy)
   - [Alarm with Slack](#alarm-with-slack)
-  - [Confirm](#confirm)
+  - [Verification](#verification)
   - [Debug](#debug)
 
 ---
@@ -29,13 +29,23 @@ kubectl apply -f k8s/
 
 ## Alarm with Slack
 
+- Slack shows incident message with
+  - cause analysis
+  - evidence
+  - runbook references
+  - verify commands
+
 ![slack_msg01](./img/slack_msg01.png)
 
 ![slack_msg02](./img/slack_msg02.png)
 
 ---
 
-## Confirm
+## Verification
+
+- on-call engineer verify situation
+  - get pod logs
+  - get events
 
 ```sh
 # check log
@@ -104,16 +114,17 @@ kubectl get events -n demo-workload --sort-by=.lastTimestamp
 
 ## Debug
 
-- debug by swith `LEAK_ENABLED=false`
+- Engineer debug by switch `LEAK_ENABLED=false`
 
 ```yaml
+# demo-workload.yaml
 env:
   - name: LEAK_ENABLED # enable leak
     value: "false" # debug by "false"
 ```
 
 ```sh
-# fix
+# apply fix
 kubectl apply -f k8s/demo-workload.yaml
 # namespace/demo-workload unchanged
 # deployment.apps/aiops-agentcore-workload configured
@@ -125,6 +136,7 @@ kubectl get po -n demo-workload -w
 # aiops-agentcore-workload-6bb5ddbc9c-2gjcd   1/1     Running   0          3m7s
 ```
 
-- Alarm get resolved
+- Confirm in alarm dashboard
+  - no more alarm after debug
 
 ![CloudWatch alarm returns to OK](./img/cloudwatch_alarm02.png)

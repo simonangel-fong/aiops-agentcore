@@ -61,7 +61,7 @@ terraform -chdir=infra/cluster init -backend-config=backend.tfvars
 terraform -chdir=infra/cluster fmt && terraform -chdir=infra/cluster validate
 
 terraform -chdir=infra/cluster plan
-terraform -chdir=infra/cluster apply -auto-approve
+# terraform -chdir=infra/cluster apply -auto-approve
 
 terraform -chdir=infra/cluster output
 terraform -chdir=infra/cluster destroy -auto-approve

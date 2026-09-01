@@ -187,7 +187,3 @@ The current MVP intentionally focuses on read-only diagnosis of a single `OOMKil
 - [Agent runtime in `AgentCore`](./docs/05_agentcore.md)
 - [CI/CD pipelines](./docs/06_cicd.md)
 - [Incident demo](./docs/07_demo.md)
-
----
-
-web
