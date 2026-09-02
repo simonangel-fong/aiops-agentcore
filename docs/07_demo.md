@@ -5,7 +5,7 @@
 - [AIOps-AgentCore: OOM Incident Demo](#aiops-agentcore-oom-incident-demo)
   - [Deploy](#deploy)
   - [Alarm with Slack](#alarm-with-slack)
-  - [Verification](#verification)
+  - [Human Verification](#human-verification)
   - [Debug](#debug)
 
 ---
@@ -41,7 +41,7 @@ kubectl apply -f k8s/
 
 ---
 
-## Verification
+## Human Verification
 
 - on-call engineer verify situation
   - get pod logs
